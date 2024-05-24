@@ -17,7 +17,7 @@ const Footer = () => {
               </span>
             </Link>
           </div> */}
-          <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">
             <div>
               <h2 className="mb-6 text-sm font-semibold uppercase text-white">
                 Useful Links
@@ -78,7 +78,7 @@ const Footer = () => {
               </ul>
             </div>
           </div>
-          <div className="mt-10">
+          <div className="mt-10 md:mt-0 mx-auto">
             <h2 className="mb-6 text-sm font-semibold uppercase text-white">
               School Timings
             </h2>
