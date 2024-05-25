@@ -13,34 +13,34 @@ const Footer = () => {
               <ul className="text-gray-400 font-medium">
                 <li className="mb-4">
                   <Link
-                    href="http://cbse.nic.in/newsite/index.html"
+                    href="http://admser.chd.nic.in/sevaempb/app/Login/"
                     className="hover:underline"
                   >
-                    CBSE
+                    Employee Login- Chandigarh Administration
                   </Link>
                 </li>
                 <li className="mb-4">
                   <Link
-                    href="http://www.cbseguess.com/"
+                    href="https://sdms.udiseplus.gov.in/"
                     className="hover:underline"
                   >
-                    CBSE Guess
+                    UDISE+ Students
                   </Link>
                 </li>
                 <li className="mb-4">
                   <Link
-                    href="http://chdeducation.gov.in/"
+                    href="https://ncert.nic.in/textbooks.php"
                     className="hover:underline"
                   >
-                    Education Department
+                    NCERT Text Books
                   </Link>
                 </li>
                 <li className="mb-4">
                   <Link
-                    href="https://ssachd.nic.in/"
+                    href="http://scholarships.gov.in/"
                     className="hover:underline"
                   >
-                    SSA
+                    Scholarships
                   </Link>
                 </li>
               </ul>
@@ -54,28 +54,20 @@ const Footer = () => {
                 <li>Pocket No. 1</li>
                 <li>Manimajra</li>
                 <li className="mb-4">Chandigarh</li>
-                <Link href={`tel:01722737701`} className="underline block">
+                <Link
+                  href={`tel:01722737701`}
+                  className="underline text-sm block"
+                >
                   0172-2737701
                 </Link>
                 <Link
                   href={`mailto:gmhspocket1@gmail.com`}
-                  className="underline"
+                  className="underline text-sm"
                 >
                   gmhspocket1@gmail.com
                 </Link>
               </ul>
             </div>
-          </div>
-          <div className="mt-10 md:mt-0 mx-auto">
-            <h2 className="mb-6 text-sm font-semibold uppercase text-white">
-              School Timings
-            </h2>
-            <ul className="text-gray-400 font-medium">
-              <li>Summers I Shift: 7:15am to 1:00pm</li>
-              <li>Summers II Shift: 1:00pm to 5:30pm</li>
-              <li>Winters I Shift: 8:00am to 2:00pm</li>
-              <li>Winters II Shift: 1:00pm to 5:00pm</li>
-            </ul>
           </div>
         </div>
         <hr className="my-6 sm:mx-auto border-gray-700 lg:my-8" />

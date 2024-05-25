@@ -1,6 +1,6 @@
 import Image from "next/image";
 import SchoolImage from "@/public/school.png";
-import PrincipalImage from "@/public/principal.jpeg";
+import PrincipalImage from "@/public/principal.jpg";
 import Logo1 from "@/public/logo/logo1.jpg";
 import Logo2 from "@/public/logo/logo2.jpg";
 import SectionDivider from "@/components/SectionDivider";
@@ -32,8 +32,8 @@ const announcements = [
 export default function Home() {
   return (
     <div>
-      <section id="home" className="w-screen h-[55vh] md:h-[75vh]">
-        <div className="absolute top-0 w-full h-[55vh] md:h-[75vh] bg-black z-10 bg-opacity-50 flex flex-col justify-center items-center md:items-start gap-5 px-2 md:px-8">
+      <section id="home" className="w-screen h-[60vh] md:h-[75vh]">
+        <div className="absolute top-0 w-full h-[60vh] md:h-[75vh] bg-black z-10 bg-opacity-50 flex flex-col justify-center items-center md:items-start gap-5 px-2 md:px-8">
           <h1 className="font-extrabold text-2xl md:text-5xl text-yellow-400">
             Welcome To
           </h1>
@@ -96,7 +96,10 @@ export default function Home() {
         className="scale-95 md:scale-100 border w-full md:w-2/3 md:mx-auto border-gray-300 flex flex-col items-center mt-10 rounded-lg"
       >
         <div className="w-32 h-32 rounded-full absolute -translate-y-12 p-2 border-2 bg-white shadow-md">
-          <Image src={PrincipalImage} className="rounded-full aspect-square" />
+          <Image
+            src={PrincipalImage}
+            className="rounded-full aspect-square object-contain"
+          />
         </div>
         <h1 className="font-semibold text-2xl md:text-3xl mt-24">
           Principal's Message
@@ -127,8 +130,6 @@ export default function Home() {
       <SectionDivider />
 
       <Initiatives />
-
-      <Footer />
     </div>
   );
 }
