@@ -5,18 +5,6 @@ const Footer = () => {
     <footer id="contact" className="bg-gray-900 mt-4">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
-          {/* <div className="mb-6 md:mb-0">
-            <Link href="https://flowbite.com/" className="flex items-center">
-              <img
-                src="https://flowbite.com/docs/images/logo.svg"
-                className="h-8 me-3"
-                alt="FlowBite Logo"
-              />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">
-                Flowbite
-              </span>
-            </Link>
-          </div> */}
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">
             <div>
               <h2 className="mb-6 text-sm font-semibold uppercase text-white">
@@ -93,7 +81,7 @@ const Footer = () => {
         <hr className="my-6 sm:mx-auto border-gray-700 lg:my-8" />
         <div className="sm:flex sm:items-center sm:justify-between">
           <div class="text-sm text-gray-500 dark:text-gray-300 sm:text-center mb-4">
-            © 2023 GMHS Pocket 1 Manimajra | Powered by Strident India
+            © 2024 GMHS Pocket 1 Manimajra, U.T. Chandigarh
           </div>
           <span className="text-sm sm:text-center text-gray-400">
             For technical enquiries, please contact Mr Ramesh Kumar at{" "}
@@ -105,7 +93,7 @@ const Footer = () => {
               rameshgupta001@gmail.com
             </Link>
           </span>
-          <div className="flex my-8 sm:justify-center sm:mt-0">
+          {/* <div className="flex my-8 sm:justify-center sm:mt-0">
             <Link
               href="#"
               className="text-gray-500 hover:text-gray-900 dark:hover:text-white"
@@ -185,7 +173,7 @@ const Footer = () => {
               </svg>
               <span className="sr-only">Dribbble account</span>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>
