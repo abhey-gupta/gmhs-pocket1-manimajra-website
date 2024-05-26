@@ -50,10 +50,15 @@ const AddAnnouncement = () => {
         });
         await handleCreateRequest(data.location);
       } else {
-        toast.error("Oops, something went wrong");
+        alert(
+          "An error occurred while uploading the file. Please check your internet connection and try again"
+        );
       }
     } catch (error) {
       console.error("Error uploading file:", error);
+      alert(
+        "An error occurred while uploading the file. Please check your internet connection and try again"
+      );
     } finally {
       setUploading(false);
     }
@@ -67,6 +72,8 @@ const AddAnnouncement = () => {
         file: filePath,
         description: formData.description,
       });
+
+      console.log(data);
       if (data.success) {
         toast.success("Announcement created successfully");
       } else {

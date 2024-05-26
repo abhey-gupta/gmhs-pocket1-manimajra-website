@@ -14,7 +14,7 @@ const Announcements = () => {
     setIsLoading(true);
     const { data } = await axios.get("/api/announcements/fetch-all");
     if (data.success) {
-      setAnnouncements(data.announcements);
+      setAnnouncements(data.announcements.reverse());
     }
     setIsLoading(false);
   };
@@ -43,8 +43,12 @@ const Announcements = () => {
           return (
             <Link
               key={announcement._id}
-              href={`/announcements/${announcement._id}`}
-              className={`w-full flex flex-col gap-2 p-3 ${
+              href={`/announcement/${announcement._id}`}
+              className={`w-full flex flex-col gap-2 ${
+                announcement.flagged
+                  ? "hover:bg-yellow-200"
+                  : "hover:bg-gray-50"
+              } border-b transition p-3 ${
                 announcement.flagged ? "bg-yellow-100" : "bg-white"
               }`}
             >

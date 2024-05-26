@@ -11,8 +11,9 @@ const Footer = () => {
                 Our Socials
               </h2>
               <iframe
-                width="300"
-                height="150"
+                // width="300"
+                // height="150"
+                className="w-[300px] h-[150px] sm:w-[200px] sm:h-[120px] md:w-[250px] md:h-[150px]"
                 src="https://www.youtube.com/embed/ieyKJmrUg9s"
               ></iframe>
               <ul className="text-gray-400 font-medium mt-2">
@@ -36,7 +37,15 @@ const Footer = () => {
                     href="http://admser.chd.nic.in/sevaempb/app/Login/"
                     className="hover:underline"
                   >
-                    Employee Login- Chandigarh Administration
+                    Employee Login-Sevaarth
+                  </Link>
+                </li>
+                <li className="mb-4">
+                  <Link
+                    href="https://ssachd.nic.in/"
+                    className="hover:underline"
+                  >
+                    Samagra Shiksha Chandigarh
                   </Link>
                 </li>
                 <li className="mb-4">
@@ -45,6 +54,30 @@ const Footer = () => {
                     className="hover:underline"
                   >
                     UDISE+ Students
+                  </Link>
+                </li>
+                <li className="mb-4">
+                  <Link
+                    href="http://phoenix.chdeducation.gov.in/Login.aspx"
+                    className="hover:underline"
+                  >
+                    Phoenix
+                  </Link>
+                </li>
+                <li className="mb-4">
+                  <Link
+                    href="https://www.cbse.gov.in/"
+                    className="hover:underline"
+                  >
+                    CBSE
+                  </Link>
+                </li>
+                <li className="mb-4">
+                  <Link
+                    href="https://ehrms.nic.in/Home/Index/CH"
+                    className="hover:underline"
+                  >
+                    E - HRMS
                   </Link>
                 </li>
                 <li className="mb-4">
@@ -89,6 +122,51 @@ const Footer = () => {
               </ul>
             </div>
           </div>
+        </div>
+        <hr className="my-6 sm:mx-auto border-gray-700 lg:my-8" />
+        <div className="mb-10 flex gap-4 flex-wrap">
+          <a href="https://ekbharat.gov.in/" target="_blank">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoh7V6feZI-b9-BT_XpOgAr3Xc24Sv5YnoU191w8SfkQ&s"
+              alt="ek bharat shrestha bharat"
+              className="w-20 h-20 rounded-full"
+            />
+          </a>
+          <a href="https://dsel.education.gov.in/sbsv/" target="_blank">
+            <img
+              src="https://csrbox.org/company/proj_img/1520588326swachh-bharat-swachh-vidyalaya%20(1).jpg"
+              className="h-20 rounded-md"
+              alt="swachh bharat swachh vidayalaya"
+            />
+          </a>
+          <a href="https://csc.gov.in/digitalIndia" target="_blank">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdz-p_lRFfaWjECaxe0swZAH_zeTGnwAbrJFBFdtE8dw&s"
+              className="h-20 rounded-md"
+              alt="Digital India"
+            />
+          </a>
+          <a href="https://fitindia.gov.in" target="_blank">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF52BXkR30vAoN43KEjeExRMLIFSAtnYQWEBSIx8n8jw&s"
+              className="h-20 rounded-md"
+              alt="Fit India"
+            />
+          </a>
+          <a href="https://samagra.education.gov.in" target="_blank">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT99jhj5PlU9iz_vNWZx31wRFt8g46n6qjZizCJGq7Mog&s"
+              className="h-20 rounded-md"
+              alt="samagra shiksha"
+            />
+          </a>
+          <a href="https://pmposhan.education.gov.in" target="_blank">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThy-A1WTjORAluqghdWscWwOLrJdupiz7Xhz5wfU3J0A&s"
+              className="h-20 rounded-md"
+              alt="pm poshan"
+            />
+          </a>
         </div>
         <hr className="my-6 sm:mx-auto border-gray-700 lg:my-8" />
         <div className="sm:flex sm:items-center sm:justify-between">
