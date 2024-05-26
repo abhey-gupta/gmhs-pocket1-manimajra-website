@@ -5,6 +5,7 @@ import Image2 from "@/public/additional/2.JPG";
 import Image4 from "@/public/additional/4.png";
 import Image5 from "@/public/additional/5.JPG";
 import Image6 from "@/public/additional/6.jpeg";
+import Image7 from "@/public/additional/swachh-bharat-swachh-vidyalaya.jpg";
 import Link from "next/link";
 
 const Initiatives = () => {
@@ -18,11 +19,11 @@ const Initiatives = () => {
         <Image
           src={image}
           alt="img"
-          className="object-contain aspect-square"
+          className="object-contain aspect-square w-[200px] h-[200px]"
           width={200}
           height={200}
         />
-        <label className="font-semibold py-2">{title}</label>
+        <label className="font-semibold py-2 text-center w-full">{title}</label>
       </Link>
     );
   };
@@ -61,6 +62,18 @@ const Initiatives = () => {
         <Card
           image={Image5}
           title={"FIT India Activities"}
+          href={"https://fitindiahe.education.gov.in/home"}
+        />
+        <Card
+          image={
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoh7V6feZI-b9-BT_XpOgAr3Xc24Sv5YnoU191w8SfkQ&s"
+          }
+          title={"Ek Bharat Shreshtha Bharat Activities"}
+          href={"https://fitindiahe.education.gov.in/home"}
+        />
+        <Card
+          image={Image7}
+          title={"Swachha Bharat Swachha Vidayalaya Activities"}
           href={"https://fitindiahe.education.gov.in/home"}
         />
       </div>

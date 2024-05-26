@@ -93,8 +93,15 @@ export default async function Home() {
           present. Heart within and God overhead.“
         </p>
         <span className="text-md px-4 mb-4">Regards ✨ </span>
+      </section>
+      <SectionDivider />
 
-        <p className="m-4 italic font-semibold">
+      <section
+        id="about"
+        className="scale-95 md:scale-100 border w-full md:w-2/3 md:mx-auto border-gray-300 flex flex-col items-center mt-10 rounded-lg"
+      >
+        <h1 className="font-semibold text-2xl md:text-3xl my-4">Our Mission</h1>
+        <p className="mx-4 mb-4 italic font-semibold">
           "Our mission is to ignite a passion for lifelong learning, empower
           students to think critically, and prepare them for a successful
           future."
