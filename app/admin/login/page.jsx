@@ -8,8 +8,8 @@ const AdminLogin = () => {
   const router = useRouter();
 
   const [credentials, setCredentials] = useState({
-    email: "rameshgupta001@gmail.com",
-    password: "gmhs@pkt1",
+    email: "",
+    password: "",
   });
 
   const onSubmit = (e) => {

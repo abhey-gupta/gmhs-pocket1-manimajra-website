@@ -6,27 +6,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import OvalLoader from "./loaders/OvalLoader";
 
-// const announcements = [
-//   {
-//     _id: 1,
-//     title: "Admissions Open for 2024 students. Enroll Now and get benefits",
-//     time: "3h ago",
-//     flagged: true,
-//   },
-//   {
-//     _id: 2,
-//     title: "Results Announced",
-//     time: "6h ago",
-//     flagged: false,
-//   },
-//   {
-//     _id: 3,
-//     title: "Admissions Open",
-//     time: "9h ago",
-//     flagged: false,
-//   },
-// ];
-
 const Announcements = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
