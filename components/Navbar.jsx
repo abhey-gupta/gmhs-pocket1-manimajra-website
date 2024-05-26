@@ -19,6 +19,107 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Image from "next/image";
+import { Label } from "./ui/label";
+
+const SchoolCommittees = () => (
+  <DropdownMenu>
+    <DropdownMenuTrigger>
+      <DropdownMenuLabel className="text-left transition rounded-lg text-xs md:text-sm">
+        <Label>School Committees</Label>
+      </DropdownMenuLabel>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent>
+      <DropdownMenuItem>
+        <Link href="#home">School Management Committee (SMC)</Link>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <Link href="#about">Sexual Harrasment Committe</Link>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <Link href="#contact">Child Friendly Committee</Link>
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
+
+const Results = () => (
+  <DropdownMenu>
+    <DropdownMenuTrigger>
+      <DropdownMenuLabel className="text-left   rounded-lg">
+        Results
+      </DropdownMenuLabel>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent>
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((val) => (
+        <DropdownMenuItem key={val}>
+          <Link href="#home">Class-{val}</Link>
+        </DropdownMenuItem>
+      ))}
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
+
+const Achievements = () => (
+  <DropdownMenu>
+    <DropdownMenuTrigger>
+      <DropdownMenuLabel className="text-left   rounded-lg">
+        Achievements
+      </DropdownMenuLabel>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent>
+      <DropdownMenuItem>
+        <Link href="#home">Academic</Link>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <Link href="#about">Non Academic</Link>
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
+
+const CBSE = () => (
+  <DropdownMenu>
+    <DropdownMenuTrigger>
+      <DropdownMenuLabel className="hover:scale-110 py-1 px-2 transition hover:text-black cursor-pointer">
+        CBSE
+      </DropdownMenuLabel>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent>
+      <DropdownMenuItem>
+        <Link href="/cbse/affiliation-status">Affiliation Status</Link>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <Link href="/cbse/mandatory-public-disclosure">
+          Mandatory Public Disclosure
+        </Link>
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
+
+const SchoolInfo = () => (
+  <DropdownMenu>
+    <DropdownMenuTrigger>
+      <DropdownMenuLabel className="text-left md:  rounded-lg text-xs md:text-sm">
+        <Label>School Info</Label>
+      </DropdownMenuLabel>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent>
+      <DropdownMenuItem>
+        <Link href="#home">Students Enrolment</Link>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <Link href="/info/school-uniform">School Uniform</Link>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <Link href="/info/infrastructure">Infrastructure</Link>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <Link href="#contact">Staff</Link>
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
 
 const Navbar = () => {
   return (
@@ -32,111 +133,38 @@ const Navbar = () => {
           />
         </li>
         <li className="hover:scale-110 font-semibold py-1 px-2 transition hover:text-black cursor-pointer">
-          <Link href="/#home">Home</Link>
+          <Link href="/#home">
+            <Label>Home</Label>
+          </Link>
         </li>
         <li className="hover:scale-110 font-semibold py-1 px-2 transition hover:text-black cursor-pointer">
-          <Link href="#about">About Us</Link>
+          <CBSE />
         </li>
         <li className="hover:scale-110 font-semibold py-1 px-2 transition hover:text-black cursor-pointer">
-          <Link href="#contact">Contact</Link>
+          <SchoolInfo />
         </li>
-        <li className="hover:scale-110 font-semibold py-1 px-2 transition hover:text-black cursor-pointer">
+        <li className="hover:scale-110 font-semibold py-1 px-2 transition hover:text-black cursor-pointer hidden md:block">
+          <SchoolCommittees />
+        </li>
+        <li className="hover:scale-110 font-semibold py-1 px-2 transition hover:text-black cursor-pointer hidden md:block">
+          <Results />
+        </li>
+        <li className="hover:scale-110 font-semibold py-1 px-2 transition hover:text-black cursor-pointer hidden md:block">
+          <Achievements />
+        </li>
+        <li className="hover:scale-110 font-semibold py-1 px-2 transition hover:text-black cursor-pointer md:hidden">
           <Sheet>
-            <SheetTrigger>More</SheetTrigger>
+            <SheetTrigger>
+              <Label>More</Label>
+            </SheetTrigger>
             <SheetContent className="bg-white bg-opacity-90 w-fit">
               <SheetHeader className="my-2">
                 <SheetTitle>Browse Other Info</SheetTitle>
               </SheetHeader>
               <div className="flex flex-col mt-3 gap-2">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <DropdownMenuLabel className="text-left hover:bg-gray-100 transition rounded-lg">
-                      School Info
-                    </DropdownMenuLabel>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <Link href="#home">Students Enrolment</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href="/info/school-uniform">School Uniform</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href="/info/infrastructure">Infrastructure</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href="#contact">Staff</Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <DropdownMenuLabel className="text-left hover:bg-gray-100 transition rounded-lg">
-                      CBSE
-                    </DropdownMenuLabel>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <Link href="/cbse/affiliation-status">
-                        Affiliation Status
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href="/cbse/mandatory-public-disclosure">
-                        Mandatory Public Disclosure
-                      </Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <DropdownMenuLabel className="text-left hover:bg-gray-100 transition rounded-lg">
-                      School Committees
-                    </DropdownMenuLabel>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <Link href="#home">
-                        School Management Committee (SMC)
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href="#about">Sexual Harrasment Committe</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href="#contact">Child Friendly Committee</Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <DropdownMenuLabel className="text-left hover:bg-gray-100 transition rounded-lg">
-                      Results
-                    </DropdownMenuLabel>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((val) => (
-                      <DropdownMenuItem key={val}>
-                        <Link href="#home">Class-{val}</Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <DropdownMenuLabel className="text-left hover:bg-gray-100 transition rounded-lg">
-                      Achievements
-                    </DropdownMenuLabel>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuItem>
-                      <Link href="#home">Academic</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link href="#about">Non Academic</Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <SchoolCommittees />
+                <Results />
+                <Achievements />
               </div>
             </SheetContent>
           </Sheet>

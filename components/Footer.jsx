@@ -5,7 +5,27 @@ const Footer = () => {
     <footer id="contact" className="bg-gray-900 mt-4">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
-          <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">
+          <div className="grid grid-cols-2 gap-8 sm:gap-16 sm:grid-cols-3">
+            <div className="col-span-2 md:col-span-1">
+              <h2 className="mb-6 text-sm font-semibold uppercase text-white">
+                Our Socials
+              </h2>
+              <iframe
+                width="300"
+                height="150"
+                src="https://www.youtube.com/embed/ieyKJmrUg9s"
+              ></iframe>
+              <ul className="text-gray-400 font-medium mt-2">
+                <li className="mb-4">
+                  <Link
+                    href="http://admser.chd.nic.in/sevaempb/app/Login/"
+                    className="hover:underline"
+                  >
+                    Facebook |
+                  </Link>
+                </li>
+              </ul>
+            </div>
             <div>
               <h2 className="mb-6 text-sm font-semibold uppercase text-white">
                 Useful Links
@@ -72,7 +92,7 @@ const Footer = () => {
         </div>
         <hr className="my-6 sm:mx-auto border-gray-700 lg:my-8" />
         <div className="sm:flex sm:items-center sm:justify-between">
-          <div class="text-sm text-gray-500 dark:text-gray-300 sm:text-center mb-4">
+          <div className="text-sm text-gray-500 dark:text-gray-300 sm:text-center mb-4">
             © 2024 GMHS Pocket 1 Manimajra, U.T. Chandigarh
           </div>
           <span className="text-sm sm:text-center text-gray-400">

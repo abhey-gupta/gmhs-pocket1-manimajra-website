@@ -32,13 +32,13 @@ const Initiatives = () => {
       className="scale-95 md:scale-100 border w-full md:w-2/3 md:mx-auto border-gray-300 flex flex-col items-center rounded-lg p-4"
     >
       <h1 className="font-semibold text-2xl md:text-3xl my-3">
-        Our Initiatives
+        Latest Activities
       </h1>
 
       <div className="grid grid-cols-2 gap-5 ">
         <Card
           image={Image6}
-          title={"Samagra Shiksha"}
+          title={"Samagra Shiksha Activities"}
           href={"https://samagra.education.gov.in"}
         />
         {/* <Card
@@ -48,19 +48,19 @@ const Initiatives = () => {
         /> */}
         <Card
           image={Image2}
-          title={"PM Poshan"}
+          title={"PM Poshan Activities"}
           href={"https://pmposhan.education.gov.in/"}
         />
         <Card
           image={Image4}
-          title={"Digital India"}
+          title={"Digital India Activities"}
           href={
             "https://www.meity.gov.in/sites/upload_files/dit/files/Digital%2520India.pdf"
           }
         />
         <Card
           image={Image5}
-          title={"FIT India"}
+          title={"FIT India Activities"}
           href={"https://fitindiahe.education.gov.in/home"}
         />
       </div>
