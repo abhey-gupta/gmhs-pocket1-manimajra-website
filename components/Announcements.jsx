@@ -12,7 +12,11 @@ const Announcements = () => {
 
   const fetchAnnouncements = async () => {
     setIsLoading(true);
-    const { data } = await axios.get("/api/announcements/fetch-all");
+    const response = await fetch("/api/announcements/fetch-all", {
+      method: "GET",
+      cache: "no-store",
+    });
+    const data = await response.json();
     if (data.success) {
       setAnnouncements(data.announcements.reverse());
     }
@@ -38,7 +42,7 @@ const Announcements = () => {
         announcements.map((announcement) => {
           const givenDate = new Date(announcement.createdAt);
           const now = new Date();
-          const sixHoursBefore = new Date(now.getTime() - 6 * 60 * 60 * 1000);
+          const sixHoursBefore = new Date(now.getTime() - 24 * 60 * 60 * 1000);
           const isLatest = givenDate >= sixHoursBefore && givenDate <= now;
           return (
             <Link
