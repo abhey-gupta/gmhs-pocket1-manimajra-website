@@ -40,41 +40,34 @@ const Initiatives = () => {
         <Card
           image={Image6}
           title={"Samagra Shiksha Activities"}
-          href={"https://samagra.education.gov.in"}
+          href={"/activities/samagra-shiksha"}
         />
-        {/* <Card
-          image={Image1}
-          title={"India Gov"}
-          href={"https://www.education.gov.in/"}
-        /> */}
         <Card
           image={Image2}
           title={"PM Poshan Activities"}
-          href={"https://pmposhan.education.gov.in/"}
+          href={"/activities/pm-poshan"}
         />
         <Card
           image={Image4}
           title={"Digital India Activities"}
-          href={
-            "https://www.meity.gov.in/sites/upload_files/dit/files/Digital%2520India.pdf"
-          }
+          href={"/activities/digital-india"}
         />
         <Card
           image={Image5}
           title={"FIT India Activities"}
-          href={"https://fitindiahe.education.gov.in/home"}
+          href={"/activities/fit-india"}
         />
         <Card
           image={
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoh7V6feZI-b9-BT_XpOgAr3Xc24Sv5YnoU191w8SfkQ&s"
           }
           title={"Ek Bharat Shreshtha Bharat Activities"}
-          href={"https://fitindiahe.education.gov.in/home"}
+          href={"/activities/ek-bharat-shreshtha-bharat"}
         />
         <Card
           image={Image7}
           title={"Swachha Bharat Swachha Vidayalaya Activities"}
-          href={"https://fitindiahe.education.gov.in/home"}
+          href={"/activities/swachha-bharat-swachha-vidayalaya"}
         />
       </div>
     </section>

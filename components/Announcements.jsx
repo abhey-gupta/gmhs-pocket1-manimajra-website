@@ -1,7 +1,6 @@
 "use client";
 
 import { AnnounceIcon } from "@/public/icons/announce/Announce";
-import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import OvalLoader from "./loaders/OvalLoader";
@@ -42,8 +41,8 @@ const Announcements = () => {
         announcements.map((announcement) => {
           const givenDate = new Date(announcement.createdAt);
           const now = new Date();
-          const sixHoursBefore = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-          const isLatest = givenDate >= sixHoursBefore && givenDate <= now;
+          const dayBefore = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+          const isLatest = givenDate >= dayBefore && givenDate <= now;
           return (
             <Link
               key={announcement._id}

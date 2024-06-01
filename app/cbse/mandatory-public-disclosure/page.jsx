@@ -4,7 +4,7 @@ export default function PublicDisclosure() {
   return (
     <section
       id="about"
-      className="scale-95 md:scale-100 border w-full md:w-2/3 md:mx-auto border-gray-300 flex flex-col items-center mt-20 rounded-lg px-2"
+      className="scale-95 md:scale-100 border w-full md:w-2/3 md:mx-auto border-gray-300 flex flex-col items-center mt-24 rounded-lg px-2"
     >
       <h1 className="font-semibold text-2xl md:text-3xl my-4">
         Mandatory Public Disclosure
