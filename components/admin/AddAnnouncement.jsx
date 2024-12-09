@@ -90,8 +90,8 @@ const AddAnnouncement = () => {
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <div className="h-44 bg-gray-100 w-fit px-2 py-4 rounded-lg flex items-center justify-center flex-col gap-2 cursor-pointer border shadow">
-            <Label>Add Announcement</Label>
+          <div className="h-44 bg-gray-100 w-full px-2 py-4 rounded-lg flex items-center justify-center flex-col gap-2 cursor-pointer border shadow">
+            <Label className="text-center">Add Announcement</Label>
             <IoAddCircleOutline size={24} />
           </div>
         </DialogTrigger>

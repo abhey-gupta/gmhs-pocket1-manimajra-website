@@ -36,8 +36,6 @@ export async function POST(req) {
       file,
     });
 
-    console.log(newAnnouncement);
-
     return NextResponse.json({
       success: true,
       message: "Announcement created successfully",

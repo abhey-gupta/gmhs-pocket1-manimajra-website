@@ -30,7 +30,7 @@ const Initiatives = () => {
   return (
     <section
       id="about"
-      className="scale-95 md:scale-100 border w-full md:w-2/3 md:mx-auto border-gray-300 flex flex-col items-center rounded-lg p-4"
+      className="scale-95 md:scale-100 border w-full md:w-2/3 md:mx-auto border-gray-100 flex flex-col items-center rounded-lg p-4 bg-white shadow"
     >
       <h1 className="font-semibold text-2xl md:text-3xl my-3">
         Latest Activities

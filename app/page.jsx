@@ -61,7 +61,7 @@ export default async function Home() {
 
       <section
         id="about"
-        className="scale-95 md:scale-100 border w-full md:w-2/3 md:mx-auto border-gray-300 flex flex-col items-center mt-10 rounded-lg"
+        className="scale-95 md:scale-100 border w-full md:w-2/3 md:mx-auto border-gray-100 bg-white shadow flex flex-col items-center mt-10 rounded-lg"
       >
         <div className="w-32 h-32 rounded-full absolute -translate-y-12 p-2 border-2 bg-white shadow-md">
           <Image
@@ -98,7 +98,7 @@ export default async function Home() {
 
       <section
         id="about"
-        className="scale-95 md:scale-100 border w-full md:w-2/3 md:mx-auto border-gray-300 flex flex-col items-center mt-10 rounded-lg"
+        className="scale-95 md:scale-100 border w-full md:w-2/3 md:mx-auto border-gray-100 flex flex-col items-center mt-10 rounded-lg bg-white shadow"
       >
         <h1 className="font-semibold text-2xl md:text-3xl my-4">Our Mission</h1>
         <p className="mx-4 mb-4 italic font-semibold">
