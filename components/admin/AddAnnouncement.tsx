@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Dialog,
   DialogContent,
@@ -19,6 +20,7 @@ import axios from "axios";
 import { toast } from "sonner";
 
 const AddAnnouncement = () => {
+  const queryClient = useQueryClient();
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
 
@@ -78,6 +80,7 @@ const AddAnnouncement = () => {
 
       if (data.success) {
         toast.success("Announcement created successfully");
+        queryClient.invalidateQueries({ queryKey: ["announcements"] });
         setFormData({
           title: "",
           description: "",
