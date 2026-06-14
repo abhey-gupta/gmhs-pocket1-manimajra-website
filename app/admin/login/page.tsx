@@ -9,6 +9,8 @@ import Link from "next/link";
 import Logo1 from "@/public/logo/logo1.jpg";
 import { Mail, Lock, LogIn, ArrowLeft } from "lucide-react";
 
+import { toast } from "sonner";
+
 const AdminLogin = () => {
   const router = useRouter();
 
@@ -17,15 +19,29 @@ const AdminLogin = () => {
     password: "",
   });
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
 
-    if (
-      credentials.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL &&
-      credentials.password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD
-    ) {
-      Cookies.set("admin_token", process.env.NEXT_PUBLIC_ADMIN_TOKEN);
-      router.push("/admin");
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        toast.success("Welcome back! Redirecting to dashboard...");
+        router.push("/admin");
+        router.refresh();
+      } else {
+        toast.error(data.error || "Authentication failed. Please check credentials.");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      toast.error("An error occurred during authentication.");
     }
   };
 

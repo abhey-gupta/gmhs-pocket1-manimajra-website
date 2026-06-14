@@ -1,0 +1,158 @@
+[
+  {
+    "id": "cbse",
+    "label": "CBSE",
+    "items": [
+      {
+        "id": "as",
+        "label": "Affiliation Status",
+        "type": "pdf",
+        "value": "https://gmhspocket1manimajra.com/wp-content/uploads/2023/06/school-affiliation.pdf"
+      },
+      {
+        "id": "mpd",
+        "label": "Mandatory Public Disclosure",
+        "type": "pdf",
+        "value": "https://gmhspocket1manimajra.com/wp-content/uploads/2023/06/Mandatory-Public-Disclosure.pdf"
+      }
+    ]
+  },
+  {
+    "id": "school-info",
+    "label": "School Info",
+    "items": [
+      {
+        "id": "se",
+        "label": "Students Enrolment",
+        "type": "url",
+        "value": "/#home"
+      },
+      {
+        "id": "su",
+        "label": "School Uniform",
+        "type": "page",
+        "value": "school-uniform"
+      },
+      {
+        "id": "infra",
+        "label": "Infrastructure",
+        "type": "page",
+        "value": "infrastructure"
+      },
+      {
+        "id": "staff",
+        "label": "Staff",
+        "type": "url",
+        "value": "/#contact"
+      }
+    ]
+  },
+  {
+    "id": "committees",
+    "label": "Committees",
+    "items": [
+      {
+        "id": "smc",
+        "label": "School Management (SMC)",
+        "type": "url",
+        "value": "/#home"
+      },
+      {
+        "id": "shc",
+        "label": "Sexual Harassment Committee",
+        "type": "url",
+        "value": "/#about"
+      },
+      {
+        "id": "cfc",
+        "label": "Child Friendly Committee",
+        "type": "url",
+        "value": "/#contact"
+      }
+    ]
+  },
+  {
+    "id": "results",
+    "label": "Results",
+    "items": [
+      {
+        "id": "c1",
+        "label": "Class 1",
+        "type": "url",
+        "value": "/#home"
+      },
+      {
+        "id": "c2",
+        "label": "Class 2",
+        "type": "url",
+        "value": "/#home"
+      },
+      {
+        "id": "c3",
+        "label": "Class 3",
+        "type": "url",
+        "value": "/#home"
+      },
+      {
+        "id": "c4",
+        "label": "Class 4",
+        "type": "url",
+        "value": "/#home"
+      },
+      {
+        "id": "c5",
+        "label": "Class 5",
+        "type": "url",
+        "value": "/#home"
+      },
+      {
+        "id": "c6",
+        "label": "Class 6",
+        "type": "url",
+        "value": "/#home"
+      },
+      {
+        "id": "c7",
+        "label": "Class 7",
+        "type": "url",
+        "value": "/#home"
+      },
+      {
+        "id": "c8",
+        "label": "Class 8",
+        "type": "url",
+        "value": "/#home"
+      },
+      {
+        "id": "c9",
+        "label": "Class 9",
+        "type": "url",
+        "value": "/#home"
+      },
+      {
+        "id": "c10",
+        "label": "Class 10",
+        "type": "url",
+        "value": "/#home"
+      }
+    ]
+  },
+  {
+    "id": "achievements",
+    "label": "Achievements",
+    "items": [
+      {
+        "id": "acad",
+        "label": "Academic",
+        "type": "url",
+        "value": "/#home"
+      },
+      {
+        "id": "non-acad",
+        "label": "Non Academic",
+        "type": "url",
+        "value": "/#about"
+      }
+    ]
+  }
+]

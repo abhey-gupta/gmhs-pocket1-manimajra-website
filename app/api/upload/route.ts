@@ -4,6 +4,11 @@ import path from "path";
 
 export async function POST(request: Request) {
   try {
+    const { isAuthenticated } = await import("@/lib/auth");
+    if (!isAuthenticated()) {
+      return NextResponse.json({ success: false, error: "Unauthorized access" }, { status: 401 });
+    }
+
     const data = await request.formData();
     const file = data.get("file") as File | null;
     const folderName = data.get("folderName") as string | null;

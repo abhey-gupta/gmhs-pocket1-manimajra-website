@@ -37,6 +37,11 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    const { isAuthenticated } = await import("@/lib/auth");
+    if (!isAuthenticated()) {
+      return NextResponse.json({ success: false, error: "Unauthorized access" }, { status: 401 });
+    }
+
     const { title, flagged, file, description } = await req.json();
 
     const { data: newAnnouncement, error } = await supabase
@@ -61,3 +66,80 @@ export async function POST(req: Request) {
     });
   }
 }
+
+export async function PUT(req: Request) {
+  try {
+    const { isAuthenticated } = await import("@/lib/auth");
+    if (!isAuthenticated()) {
+      return NextResponse.json({ success: false, error: "Unauthorized access" }, { status: 401 });
+    }
+
+    const { id, title, flagged, file, description } = await req.json();
+    if (!id) {
+      return NextResponse.json({ success: false, error: "Missing announcement ID" }, { status: 400 });
+    }
+
+    const { data: updatedAnnouncement, error } = await supabase
+      .from("announcements")
+      .update({
+        title,
+        flagged: !!flagged,
+        file,
+        description,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", id)
+      .select()
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "Announcement updated successfully",
+      announcement: updatedAnnouncement,
+    });
+  } catch (error: any) {
+    return NextResponse.json({
+      success: false,
+      error: "An error occurred while updating the announcement: " + error.message,
+    });
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const { isAuthenticated } = await import("@/lib/auth");
+    if (!isAuthenticated()) {
+      return NextResponse.json({ success: false, error: "Unauthorized access" }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+    if (!id) {
+      return NextResponse.json({ success: false, error: "Missing announcement ID" }, { status: 400 });
+    }
+
+    const { error } = await supabase
+      .from("announcements")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      throw error;
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "Announcement deleted successfully",
+    });
+  } catch (error: any) {
+    return NextResponse.json({
+      success: false,
+      error: "An error occurred while deleting the announcement: " + error.message,
+    });
+  }
+}
+

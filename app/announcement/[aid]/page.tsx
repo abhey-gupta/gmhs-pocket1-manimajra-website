@@ -2,6 +2,38 @@ import { fetchAnnouncement } from "@/utils/announcements";
 import { Flag, ArrowLeft, Calendar, FileText, Download } from "lucide-react";
 import Link from "next/link";
 
+function renderMarkdown(text: string) {
+  if (!text) return "";
+  
+  // Escape HTML to prevent XSS
+  let escaped = text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  // Headings (### text) - run this before bold/italic to parse first
+  escaped = escaped.replace(/^###\s+(.*?)$/gm, '<h3 class="text-lg font-extrabold text-slate-800 mt-4 mb-2">$1</h3>');
+
+  // Bold (**text** or __text__)
+  escaped = escaped.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  escaped = escaped.replace(/__(.*?)__/g, "<strong>$1</strong>");
+
+  // Italic (*text* or _text_)
+  escaped = escaped.replace(/\*(.*?)\*/g, "<em>$1</em>");
+  escaped = escaped.replace(/_(.*?)_/g, "<em>$1</em>");
+
+  // Bullet Lists (- item)
+  escaped = escaped.replace(/^\s*[-*]\s+(.*?)$/gm, '<li class="ml-5 list-disc text-slate-700 my-1">$1</li>');
+
+  // Links ([label](url))
+  escaped = escaped.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-indigo-650 hover:underline font-semibold" target="_blank">$1</a>');
+
+  // Line breaks
+  escaped = escaped.replace(/\n/g, "<br />");
+
+  return escaped;
+}
+
 const AnnouncementDetail = async ({ params }) => {
   const announcement = await fetchAnnouncement(params.aid);
 
@@ -61,8 +93,13 @@ const AnnouncementDetail = async ({ params }) => {
           <div className="h-px bg-slate-100"></div>
 
           {/* Description */}
-          <div className="text-slate-650 text-sm sm:text-base leading-relaxed whitespace-pre-wrap font-medium">
-            {announcement.description || (
+          <div className="text-slate-650 text-sm sm:text-base leading-relaxed font-medium text-left">
+            {announcement.description ? (
+              <div 
+                className="markdown-content space-y-1"
+                dangerouslySetInnerHTML={{ __html: renderMarkdown(announcement.description) }}
+              />
+            ) : (
               <span className="text-slate-400 italic">No description details provided. Please check the attached document.</span>
             )}
           </div>
