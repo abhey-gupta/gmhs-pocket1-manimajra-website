@@ -17,7 +17,16 @@ if (
 }
 
 // Public client (runs on both client and server, subject to RLS)
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  global: {
+    fetch: (url, options) => {
+      return fetch(url, {
+        ...options,
+        cache: "no-store",
+      });
+    },
+  },
+});
 
 if (typeof window === "undefined" && !supabaseServiceKey) {
   console.warn(
@@ -33,6 +42,14 @@ export const supabaseAdmin = createClient(
     auth: {
       persistSession: false,
       autoRefreshToken: false,
+    },
+    global: {
+      fetch: (url, options) => {
+        return fetch(url, {
+          ...options,
+          cache: "no-store",
+        });
+      },
     },
   }
 );
