@@ -1,8 +1,14 @@
 // @ts-nocheck
+"use client";
+
 import Link from "next/link";
 import { Phone, Mail, MapPin, ExternalLink, Youtube, Award } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/admin")) return null;
+
   return (
     <footer id="contact" className="bg-slate-950 text-slate-400 border-t border-slate-900 mt-12">
       <div className="mx-auto w-full max-w-7xl p-6 py-10 lg:py-16">

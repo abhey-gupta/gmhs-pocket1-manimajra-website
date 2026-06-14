@@ -15,7 +15,9 @@
         "type": "pdf",
         "value": "https://gmhspocket1manimajra.com/wp-content/uploads/2023/06/Mandatory-Public-Disclosure.pdf"
       }
-    ]
+    ],
+    "type": "dropdown",
+    "value": ""
   },
   {
     "id": "school-info",
@@ -45,7 +47,9 @@
         "type": "url",
         "value": "/#contact"
       }
-    ]
+    ],
+    "type": "dropdown",
+    "value": ""
   },
   {
     "id": "committees",
@@ -69,7 +73,9 @@
         "type": "url",
         "value": "/#contact"
       }
-    ]
+    ],
+    "type": "dropdown",
+    "value": ""
   },
   {
     "id": "results",
@@ -135,7 +141,9 @@
         "type": "url",
         "value": "/#home"
       }
-    ]
+    ],
+    "type": "dropdown",
+    "value": ""
   },
   {
     "id": "achievements",
@@ -153,6 +161,15 @@
         "type": "url",
         "value": "/#about"
       }
-    ]
+    ],
+    "type": "dropdown",
+    "value": ""
+  },
+  {
+    "id": "fee-payment",
+    "label": "Fee Payment",
+    "type": "url",
+    "items": [],
+    "value": "https://www.schooleducation.chd.gov.in/LoginPage.aspx"
   }
 ]
