@@ -3,6 +3,9 @@ import { promises as fs } from "fs";
 import path from "path";
 import { isAuthenticated } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
+
 const defaultNavigation = [
   {
     id: "cbse",
