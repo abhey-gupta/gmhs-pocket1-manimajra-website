@@ -16,10 +16,12 @@ export default function RootLayout({ children }) {
   return (
     <ReactQueryClientProvider>
       <html lang="en" className="!scroll-smooth">
-        <body className={quicksand.className}>
-          <NextTopLoader showSpinner={false} color="red" />
+        <body className={`${quicksand.className} flex flex-col min-h-screen`}>
+          <NextTopLoader showSpinner={false} color="#d97706" />
           <Navbar />
-          <div className="bg-gray-100">{children}</div>
+          <main className="flex-grow bg-gradient-to-b from-slate-50 via-slate-100/50 to-slate-50/30">
+            {children}
+          </main>
           <Footer />
           <Toaster />
         </body>

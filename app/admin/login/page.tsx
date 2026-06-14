@@ -4,6 +4,10 @@
 import Cookies from "js-cookie";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import Logo1 from "@/public/logo/logo1.jpg";
+import { Mail, Lock, LogIn, ArrowLeft } from "lucide-react";
 
 const AdminLogin = () => {
   const router = useRouter();
@@ -26,27 +30,62 @@ const AdminLogin = () => {
   };
 
   return (
-    <section className="bg-white mt-20 md:mt-0">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div className="w-full rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 bg-white">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-              Sign in to Admin Portal
-            </h1>
-            <form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
-              <div>
-                <label
-                  for="email"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  Your email
-                </label>
+    <section className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden bg-gradient-to-tr from-slate-950 via-slate-900 to-indigo-950">
+      
+      {/* Decorative background glow elements */}
+      <div className="absolute w-96 h-96 rounded-full bg-indigo-500/10 blur-3xl -top-12 -left-12"></div>
+      <div className="absolute w-80 h-80 rounded-full bg-amber-500/5 blur-3xl -bottom-12 -right-12"></div>
+
+      {/* Floating Home Link */}
+      <div className="absolute top-8 left-8">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-xs font-bold text-slate-400 hover:text-white transition-colors uppercase tracking-wider"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back to School Site</span>
+        </Link>
+      </div>
+
+      <div className="w-full max-w-md">
+        <div className="glass-panel-dark bg-slate-900/60 border border-slate-800/80 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-lg">
+          <div className="flex flex-col items-center gap-4 text-center mb-8">
+            <div className="w-16 h-16 rounded-full overflow-hidden border border-slate-700/60 p-0.5 bg-slate-800">
+              <Image
+                src={Logo1}
+                alt="School Logo"
+                className="object-contain rounded-full h-full w-full"
+              />
+            </div>
+            <div className="space-y-1">
+              <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
+                Administrative Hub
+              </h1>
+              <p className="text-slate-400 text-xs font-medium">
+                Sign in to manage school bulletins & activities
+              </p>
+            </div>
+          </div>
+
+          <form className="space-y-5" onSubmit={onSubmit}>
+            {/* Email Field */}
+            <div className="space-y-1.5 text-left">
+              <label
+                htmlFor="email"
+                className="block text-xs font-bold text-slate-400 uppercase tracking-wider"
+              >
+                School Email
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                  <Mail className="w-4 h-4" />
+                </div>
                 <input
                   type="email"
                   name="email"
                   id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="username@mail.com"
+                  className="bg-slate-950/80 border border-slate-800/80 text-white placeholder-slate-600 sm:text-sm rounded-xl focus:ring-amber-500 focus:border-amber-500 block w-full pl-10 pr-3 py-2.5 transition-colors focus:outline-none focus:ring-1"
+                  placeholder="admin@school.com"
                   required
                   onChange={(e) => {
                     setCredentials({ ...credentials, email: e.target.value });
@@ -54,19 +93,26 @@ const AdminLogin = () => {
                   value={credentials.email}
                 />
               </div>
-              <div>
-                <label
-                  for="password"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  Password
-                </label>
+            </div>
+
+            {/* Password Field */}
+            <div className="space-y-1.5 text-left">
+              <label
+                htmlFor="password"
+                className="block text-xs font-bold text-slate-400 uppercase tracking-wider"
+              >
+                Access Password
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                  <Lock className="w-4 h-4" />
+                </div>
                 <input
                   type="password"
                   name="password"
                   id="password"
                   placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500"
+                  className="bg-slate-950/80 border border-slate-800/80 text-white placeholder-slate-600 sm:text-sm rounded-xl focus:ring-amber-500 focus:border-amber-500 block w-full pl-10 pr-3 py-2.5 transition-colors focus:outline-none focus:ring-1"
                   required
                   onChange={(e) => {
                     setCredentials({
@@ -77,14 +123,17 @@ const AdminLogin = () => {
                   value={credentials.password}
                 />
               </div>
-              <button
-                type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 bg-gray-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-primary-600 hover:bg-primary-700 focus:ring-primary-800"
-              >
-                Sign in
-              </button>
-            </form>
-          </div>
+            </div>
+
+            {/* Sign In Button */}
+            <button
+              type="submit"
+              className="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-extrabold rounded-xl text-sm py-3 transition duration-200 shadow-lg shadow-amber-600/10 cursor-pointer"
+            >
+              <LogIn className="w-4 h-4" />
+              <span>Enter Dashboard</span>
+            </button>
+          </form>
         </div>
       </div>
     </section>
