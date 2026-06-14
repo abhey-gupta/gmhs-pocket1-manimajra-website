@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { supabase } from "@/lib/supabase";
+import { supabase, supabaseAdmin } from "@/lib/supabase";
 
 export async function GET() {
   try {
@@ -44,7 +44,7 @@ export async function POST(req: Request) {
 
     const { title, flagged, file, description } = await req.json();
 
-    const { data: newAnnouncement, error } = await supabase
+    const { data: newAnnouncement, error } = await supabaseAdmin
       .from("announcements")
       .insert([{ title, flagged: !!flagged, file, description }])
       .select()
@@ -79,7 +79,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ success: false, error: "Missing announcement ID" }, { status: 400 });
     }
 
-    const { data: updatedAnnouncement, error } = await supabase
+    const { data: updatedAnnouncement, error } = await supabaseAdmin
       .from("announcements")
       .update({
         title,
@@ -122,13 +122,21 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ success: false, error: "Missing announcement ID" }, { status: 400 });
     }
 
-    const { error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from("announcements")
       .delete()
-      .eq("id", id);
+      .eq("id", id)
+      .select();
 
     if (error) {
       throw error;
+    }
+
+    if (!data || data.length === 0) {
+      return NextResponse.json({
+        success: false,
+        error: "Announcement not found or permission denied. Please verify that SUPABASE_SERVICE_ROLE_KEY is configured in your environment.",
+      });
     }
 
     return NextResponse.json({
