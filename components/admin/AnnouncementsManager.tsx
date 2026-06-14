@@ -87,7 +87,7 @@ const AnnouncementsManager = () => {
         if (data.success) {
           filePath = data.location;
         } else {
-          toast.error("Failed to upload new attachment");
+          toast.error(data.error || "Failed to upload new attachment");
           setUpdating(false);
           return;
         }
@@ -108,8 +108,10 @@ const AnnouncementsManager = () => {
       } else {
         toast.error(data.error || "Failed to update announcement");
       }
-    } catch (err) {
-      toast.error("An error occurred during update");
+    } catch (err: any) {
+      console.error("Error updating announcement:", err);
+      const errMsg = err.response?.data?.error || err.message || "An error occurred during update";
+      toast.error(errMsg);
     } finally {
       setUpdating(false);
     }

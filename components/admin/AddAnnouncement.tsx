@@ -51,16 +51,17 @@ const AddAnnouncement = () => {
         if (data.success) {
           filePath = data.location;
         } else {
-          toast.error("An error occurred while uploading the file.");
+          toast.error(data.error || "An error occurred while uploading the file.");
           setUploading(false);
           return;
         }
       }
 
       await handleCreateRequest(filePath);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error uploading file:", error);
-      toast.error("An error occurred while uploading the file.");
+      const errMsg = error.response?.data?.error || error.message || "An error occurred while uploading the file.";
+      toast.error(errMsg);
     } finally {
       setUploading(false);
     }

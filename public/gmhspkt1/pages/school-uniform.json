@@ -1,0 +1,39 @@
+{
+  "title": "School Uniform Specifications",
+  "subtitle": "Student Guidelines",
+  "sections": [
+    {
+      "type": "table",
+      "title": "Primary Classes (1st to 5th Grade)",
+      "headers": [
+        "Boys Uniform",
+        "Girls Uniform"
+      ],
+      "rows": [
+        [
+          "Shorts and Shirt (colour as per specification of the Education Department, Chandigarh Administration)",
+          "Shirt and Tunic (colour as per specification of the Education Department, Chandigarh Administration)"
+        ]
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Middle & High Classes (6th to 10th Grade)",
+      "headers": [
+        "Boys Uniform",
+        "Girls Uniform"
+      ],
+      "rows": [
+        [
+          "Trousers and Shirt (colour as per specification of the Education Department, Chandigarh Administration)",
+          "Salwar / Skirt and Suit/Shirt (colour as per specification of the Education Department, Chandigarh Administration)"
+        ]
+      ]
+    },
+    {
+      "type": "text",
+      "title": "Note to Parents",
+      "content": "Uniform color palettes and patterns are strictly governed by guidelines from the Education Department of Chandigarh Administration. Please verify current specifications with class teachers before buying."
+    }
+  ]
+}

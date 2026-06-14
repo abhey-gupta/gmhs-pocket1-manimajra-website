@@ -76,11 +76,12 @@ const AddActivity = () => {
         });
         setFiles(null);
       } else {
-        toast.error("An error occurred while uploading. Please try again.");
+        toast.error(data.error || "An error occurred while uploading. Please try again.");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error uploading file:", error);
-      toast.error("An error occurred while uploading. Please try again.");
+      const errMsg = error.response?.data?.error || error.message || "An error occurred while uploading. Please try again.";
+      toast.error(errMsg);
     } finally {
       setUploading(false);
     }

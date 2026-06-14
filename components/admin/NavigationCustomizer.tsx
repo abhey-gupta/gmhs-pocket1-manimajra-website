@@ -255,10 +255,12 @@ const NavigationCustomizer = () => {
         updatedSections[secIndex].value = data.location;
         setSelectedPage({ ...selectedPage, sections: updatedSections });
       } else {
-        toast.error("Failed to upload PDF");
+        toast.error(data.error || "Failed to upload PDF");
       }
-    } catch {
-      toast.error("Failed to upload PDF");
+    } catch (error: any) {
+      console.error("Error uploading PDF:", error);
+      const errMsg = error.response?.data?.error || error.message || "Failed to upload PDF";
+      toast.error(errMsg);
     } finally {
       setUploadingPdfIndex(null);
     }

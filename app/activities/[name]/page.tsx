@@ -1,7 +1,6 @@
 // @ts-nocheck
-import { promises as fs } from "fs";
-import path from "path";
 import Link from "next/link";
+import { supabaseAdmin } from "@/lib/supabase";
 import {
   Accordion,
   AccordionContent,
@@ -23,50 +22,70 @@ interface PageProps {
   };
 }
 
-async function getFilesRecursively(dir: string, baseDir: string): Promise<string[]> {
-  let results: string[] = [];
-  let list;
-  try {
-    list = await fs.readdir(dir, { withFileTypes: true });
-  } catch (e) {
-    return [];
-  }
-  for (const file of list) {
-    const res = path.resolve(dir, file.name);
-    if (file.isDirectory()) {
-      results = results.concat(await getFilesRecursively(res, baseDir));
-    } else {
-      const relativePath = path.relative(baseDir, res);
-      results.push(relativePath.replace(/\\/g, "/"));
-    }
-  }
-  return results;
-}
-
 const Page = async ({ params }: PageProps) => {
   const { name } = params;
 
-  // Local storage base directory
-  const baseDir = path.join(process.cwd(), "public");
-  const activitiesDir = path.join(baseDir, "gmhspkt1", "activities", name);
+  let files: string[] = [];
+  const bucketName = "gmhspkt1";
 
-  // Read files from local disk
-  const files = await getFilesRecursively(activitiesDir, baseDir);
+  try {
+    const { data: years, error: yearsError } = await supabaseAdmin.storage
+      .from(bucketName)
+      .list(`activities/${name}`);
+
+    if (!yearsError && years) {
+      for (const year of years) {
+        if (!year.id) { // Directory
+          const { data: titles, error: titlesError } = await supabaseAdmin.storage
+            .from(bucketName)
+            .list(`activities/${name}/${year.name}`);
+
+          if (titlesError || !titles) continue;
+
+          for (const title of titles) {
+            if (!title.id) { // Directory
+              const { data: fileItems, error: filesError } = await supabaseAdmin.storage
+                .from(bucketName)
+                .list(`activities/${name}/${year.name}/${title.name}`);
+
+              if (filesError || !fileItems) continue;
+
+              for (const fileItem of fileItems) {
+                if (fileItem.id) { // File
+                  const storagePath = `activities/${name}/${year.name}/${title.name}/${fileItem.name}`;
+                  const { data: { publicUrl } } = supabaseAdmin.storage
+                    .from(bucketName)
+                    .getPublicUrl(storagePath);
+                  files.push(publicUrl);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (e) {
+    console.error("Error scanning Supabase Storage for activities:", e);
+  }
 
   const formattedFiles = files.reduce<Record<string, Record<string, string[]>>>((acc, filePath) => {
     const parts = filePath.split("/");
-    const year = parts[3];
-    const title = parts[4];
-    const file = parts[5];
+    const actIdx = parts.indexOf("activities");
+    
+    if (actIdx !== -1 && parts.length > actIdx + 4) {
+      const year = parts[actIdx + 2];
+      const title = parts[actIdx + 3];
+      const file = parts[actIdx + 4];
 
-    if (year && title && file) {
-      if (!acc[year]) {
-        acc[year] = {};
+      if (year && title && file) {
+        if (!acc[year]) {
+          acc[year] = {};
+        }
+        if (!acc[year][title]) {
+          acc[year][title] = [];
+        }
+        acc[year][title].push(filePath);
       }
-      if (!acc[year][title]) {
-        acc[year][title] = [];
-      }
-      acc[year][title].push(filePath);
     }
 
     return acc;
@@ -139,18 +158,18 @@ const Page = async ({ params }: PageProps) => {
                               {imgList.slice(0, 3).map((img, index) => {
                                 const rot = index === 1 ? "rotate-[4deg]" : index === 2 ? "rotate-[-4deg]" : "rotate-0";
                                 const scale = index === 0 ? "scale-100" : "scale-[0.96]";
-                                return (
-                                  <img
-                                    key={img}
-                                    src={`/${img}`}
-                                    className={`absolute object-cover h-44 w-44 rounded-xl border border-slate-200/60 bg-white shadow-sm transition-transform duration-500 ${rot} ${scale}`}
-                                    style={{
-                                      zIndex: 10 - index,
-                                      transformOrigin: "bottom center",
-                                    }}
-                                    alt=""
-                                  />
-                                );
+                                  return (
+                                    <img
+                                      key={img}
+                                      src={img.startsWith("http") ? img : `/${img}`}
+                                      className={`absolute object-cover h-44 w-44 rounded-xl border border-slate-200/60 bg-white shadow-sm transition-transform duration-500 ${rot} ${scale}`}
+                                      style={{
+                                        zIndex: 10 - index,
+                                        transformOrigin: "bottom center",
+                                      }}
+                                      alt=""
+                                    />
+                                  );
                               })}
                               {/* Hover Indicator */}
                               <div className="absolute inset-0 bg-slate-900/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center z-30">
@@ -188,12 +207,12 @@ const Page = async ({ params }: PageProps) => {
                                 className="relative aspect-square rounded-2xl overflow-hidden border border-slate-200/50 bg-slate-50 shadow-sm group"
                               >
                                 <img
-                                  src={`/${img}`}
+                                  src={img.startsWith("http") ? img : `/${img}`}
                                   className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                                   alt={title}
                                 />
                                 <a
-                                  href={`/${img}`}
+                                  href={img.startsWith("http") ? img : `/${img}`}
                                   target="_blank"
                                   className="absolute bottom-2 right-2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                   title="View full-size image"

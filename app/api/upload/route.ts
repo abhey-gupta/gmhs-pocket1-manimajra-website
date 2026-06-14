@@ -1,12 +1,18 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
+import { supabaseAdmin } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
     const { isAuthenticated } = await import("@/lib/auth");
     if (!isAuthenticated()) {
       return NextResponse.json({ success: false, error: "Unauthorized access" }, { status: 401 });
+    }
+
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return NextResponse.json({
+        success: false,
+        error: "SUPABASE_SERVICE_ROLE_KEY is missing in server environment variables. Please add it to your environment to enable uploads."
+      }, { status: 500 });
     }
 
     const data = await request.formData();
@@ -28,26 +34,41 @@ export async function POST(request: Request) {
     const timestamp = currentDate.toISOString().replace(/[:.]/g, "");
     const fileNameWithTimestamp = `${timestamp}_${file.name}`;
 
-    // Target directory: public/gmhspkt1/{folderName}
-    const relativeDir = path.join("gmhspkt1", folderName);
-    const targetDir = path.join(process.cwd(), "public", relativeDir);
+    const bucketName = "gmhspkt1";
+    const storagePath = `${folderName}/${fileNameWithTimestamp}`;
 
-    // Ensure target directory exists
-    await fs.mkdir(targetDir, { recursive: true });
+    // Ensure bucket exists or create it
+    const { data: buckets, error: listError } = await supabaseAdmin.storage.listBuckets();
+    if (!listError && !buckets.some((b: any) => b.id === bucketName)) {
+      await supabaseAdmin.storage.createBucket(bucketName, {
+        public: true,
+        fileSizeLimit: 52428800, // 50MB
+      });
+    }
 
-    // Write file to local disk
-    const targetFilePath = path.join(targetDir, fileNameWithTimestamp);
-    await fs.writeFile(targetFilePath, buffer);
+    // Upload file to bucket
+    const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+      .from(bucketName)
+      .upload(storagePath, buffer, {
+        contentType: file.type || "application/octet-stream",
+        upsert: true,
+      });
 
-    // Relative web URL to access the file statically
-    const location = `/${relativeDir}/${fileNameWithTimestamp}`;
+    if (uploadError) {
+      throw new Error("Supabase Storage upload failed: " + uploadError.message);
+    }
 
-    console.log("File uploaded successfully locally:", location);
+    // Get public URL
+    const { data: { publicUrl } } = supabaseAdmin.storage
+      .from(bucketName)
+      .getPublicUrl(storagePath);
+
+    console.log("File uploaded successfully to Supabase Storage:", publicUrl);
 
     return NextResponse.json({
       success: true,
       fileName: fileNameWithTimestamp,
-      location,
+      location: publicUrl,
     });
   } catch (error: any) {
     console.error("Error uploading file:", error);
