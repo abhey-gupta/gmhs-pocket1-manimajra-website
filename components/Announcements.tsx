@@ -4,6 +4,11 @@ import Link from "next/link";
 import OvalLoader from "./loaders/OvalLoader";
 import { useQuery } from "@tanstack/react-query";
 import { Megaphone, Flag, Calendar, ChevronRight } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+const VISIBLE_COUNT = 3;
+const GAP_PX = 16; // matches gap-4
+const SECONDS_PER_ITEM = 4;
 
 const Announcements = () => {
   const { data: announcements, isLoading, isError, error } = useQuery({
@@ -23,6 +28,107 @@ const Announcements = () => {
       return data.announcements.slice().reverse();
     },
   });
+
+  const listRef = useRef<HTMLDivElement>(null);
+  const [metrics, setMetrics] = useState<{ viewport: number; distance: number } | null>(null);
+  const [paused, setPaused] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  const count = announcements?.length ?? 0;
+  const shouldScroll = count > VISIBLE_COUNT;
+
+  useEffect(() => {
+    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReduceMotion(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
+
+  // Viewport is the height of the first 3 cards; one loop travels a full copy + gap.
+  useEffect(() => {
+    if (!shouldScroll || reduceMotion) {
+      setMetrics(null);
+      return;
+    }
+    const list = listRef.current;
+    if (!list) return;
+
+    const measure = () => {
+      const items = Array.from(list.children) as HTMLElement[];
+      if (items.length < VISIBLE_COUNT) return;
+      const viewport =
+        items.slice(0, VISIBLE_COUNT).reduce((sum, item) => sum + item.offsetHeight, 0) +
+        GAP_PX * (VISIBLE_COUNT - 1);
+      setMetrics({ viewport, distance: list.offsetHeight + GAP_PX });
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(list);
+    return () => observer.disconnect();
+  }, [shouldScroll, reduceMotion, count]);
+
+  const animating = shouldScroll && !reduceMotion && metrics !== null;
+
+  const renderAnnouncement = useCallback((announcement: any, keyPrefix: string) => {
+    const givenDate = new Date(announcement.created_at);
+    const now = new Date();
+    const dayBefore = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+    const isLatest = givenDate >= dayBefore && givenDate <= now;
+
+    return (
+      <Link
+        key={`${keyPrefix}-${announcement.id}`}
+        href={`/announcement/${announcement.id}`}
+        className={`group w-full flex items-start justify-between gap-4 p-4 rounded-2xl border transition-all duration-300 ${
+          announcement.flagged
+            ? "bg-amber-50/40 hover:bg-amber-50/70 border-amber-200/70"
+            : "bg-slate-50/30 hover:bg-slate-50/70 border-slate-100 hover:border-slate-200/80"
+        }`}
+      >
+        <div className="flex gap-4 items-start flex-grow">
+          {/* Icon */}
+          <div className={`p-2.5 rounded-xl mt-0.5 shrink-0 ${
+            announcement.flagged
+              ? "bg-amber-100 text-amber-700"
+              : "bg-indigo-50 text-indigo-700"
+          }`}>
+            <Megaphone className="w-4 h-4" />
+          </div>
+
+          {/* Content */}
+          <div className="space-y-1.5 text-left">
+            <div className="flex flex-wrap items-center gap-2">
+              <h3 className="font-bold text-slate-800 text-sm md:text-base group-hover:text-indigo-900 transition-colors">
+                {announcement.title}
+              </h3>
+              {announcement.flagged && (
+                <span className="inline-flex items-center gap-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  <Flag className="w-2.5 h-2.5 fill-amber-700 text-amber-700" />
+                  Urgent
+                </span>
+              )}
+              {isLatest && (
+                <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse">
+                  New
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-1 text-[11px] text-slate-400 font-bold">
+              <Calendar className="w-3.5 h-3.5" />
+              <span>{givenDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Action Arrow */}
+        <div className="p-1.5 rounded-lg border border-transparent group-hover:border-slate-200/50 bg-transparent group-hover:bg-white transition-all duration-300 self-center shrink-0">
+          <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-700 transition-colors" />
+        </div>
+      </Link>
+    );
+  }, []);
 
   return (
     <section
@@ -69,73 +175,54 @@ const Announcements = () => {
 
         {/* Announcements List */}
         {!isLoading && !isError && announcements && (
-          <div className="flex flex-col gap-4">
-            {announcements.length === 0 ? (
-              <div className="text-center py-10 text-slate-400">
-                <Megaphone className="w-8 h-8 mx-auto mb-2 opacity-30" />
-                <p className="text-sm font-medium">No announcements posted yet.</p>
+          count === 0 ? (
+            <div className="text-center py-10 text-slate-400">
+              <Megaphone className="w-8 h-8 mx-auto mb-2 opacity-30" />
+              <p className="text-sm font-medium">No announcements posted yet.</p>
+            </div>
+          ) : (
+            <div className="relative">
+              <div
+                className={animating ? "overflow-hidden" : ""}
+                style={animating ? { height: metrics!.viewport } : undefined}
+                onMouseEnter={() => setPaused(true)}
+                onMouseLeave={() => setPaused(false)}
+                onFocus={() => setPaused(true)}
+                onBlur={() => setPaused(false)}
+              >
+                <div
+                  className="flex flex-col gap-4"
+                  style={
+                    animating
+                      ? ({
+                          "--marquee-distance": `${metrics!.distance}px`,
+                          animation: `announcement-marquee ${count * SECONDS_PER_ITEM}s linear infinite`,
+                          animationPlayState: paused ? "paused" : "running",
+                          willChange: "transform",
+                        } as React.CSSProperties)
+                      : undefined
+                  }
+                >
+                  <div ref={listRef} className="flex flex-col gap-4">
+                    {announcements.map((announcement) => renderAnnouncement(announcement, "a"))}
+                  </div>
+                  {animating && (
+                    <div className="flex flex-col gap-4" aria-hidden="true">
+                      {announcements.map((announcement) => renderAnnouncement(announcement, "b"))}
+                    </div>
+                  )}
+                </div>
               </div>
-            ) : (
-              announcements.map((announcement) => {
-                const givenDate = new Date(announcement.created_at);
-                const now = new Date();
-                const dayBefore = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-                const isLatest = givenDate >= dayBefore && givenDate <= now;
 
-                return (
-                  <Link
-                    key={announcement.id}
-                    href={`/announcement/${announcement.id}`}
-                    className={`group w-full flex items-start justify-between gap-4 p-4 rounded-2xl border transition-all duration-300 ${
-                      announcement.flagged
-                        ? "bg-amber-50/40 hover:bg-amber-50/70 border-amber-200/70"
-                        : "bg-slate-50/30 hover:bg-slate-50/70 border-slate-100 hover:border-slate-200/80"
-                    }`}
-                  >
-                    <div className="flex gap-4 items-start flex-grow">
-                      {/* Icon */}
-                      <div className={`p-2.5 rounded-xl mt-0.5 shrink-0 ${
-                        announcement.flagged 
-                          ? "bg-amber-100 text-amber-700" 
-                          : "bg-indigo-50 text-indigo-700"
-                      }`}>
-                        <Megaphone className="w-4 h-4" />
-                      </div>
-
-                      {/* Content */}
-                      <div className="space-y-1.5 text-left">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <h3 className="font-bold text-slate-800 text-sm md:text-base group-hover:text-indigo-900 transition-colors">
-                            {announcement.title}
-                          </h3>
-                          {announcement.flagged && (
-                            <span className="inline-flex items-center gap-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full">
-                              <Flag className="w-2.5 h-2.5 fill-amber-700 text-amber-700" />
-                              Urgent
-                            </span>
-                          )}
-                          {isLatest && (
-                            <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse">
-                              New
-                            </span>
-                          )}
-                        </div>
-                        <div className="flex items-center gap-1 text-[11px] text-slate-400 font-bold">
-                          <Calendar className="w-3.5 h-3.5" />
-                          <span>{givenDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Action Arrow */}
-                    <div className="p-1.5 rounded-lg border border-transparent group-hover:border-slate-200/50 bg-transparent group-hover:bg-white transition-all duration-300 self-center shrink-0">
-                      <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-slate-700 transition-colors" />
-                    </div>
-                  </Link>
-                );
-              })
-            )}
-          </div>
+              {/* Fade edges while scrolling */}
+              {animating && (
+                <>
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-white to-transparent" />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white to-transparent" />
+                </>
+              )}
+            </div>
+          )
         )}
       </div>
     </section>

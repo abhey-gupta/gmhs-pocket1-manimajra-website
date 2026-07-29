@@ -106,6 +106,15 @@
     }
   }
 
+  @keyframes announcement-marquee {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-1 * var(--marquee-distance, 0px)));
+    }
+  }
+
   @keyframes pulse-subtle {
     0%, 100% {
       opacity: 1;
