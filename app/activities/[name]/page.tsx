@@ -1,6 +1,7 @@
 // @ts-nocheck
 import Link from "next/link";
-import { supabaseAdmin } from "@/lib/supabase";
+import { listActivityPacks } from "@/lib/activities-storage";
+import { ACTIVITY_CATEGORIES } from "@/lib/activity-categories";
 import {
   Accordion,
   AccordionContent,
@@ -25,76 +26,28 @@ interface PageProps {
 const Page = async ({ params }: PageProps) => {
   const { name } = params;
 
-  let files: string[] = [];
-  const bucketName = "gmhspkt1";
+  let packs: Awaited<ReturnType<typeof listActivityPacks>> = [];
 
   try {
-    const { data: years, error: yearsError } = await supabaseAdmin.storage
-      .from(bucketName)
-      .list(`activities/${name}`);
-
-    if (!yearsError && years) {
-      for (const year of years) {
-        if (!year.id) { // Directory
-          const { data: titles, error: titlesError } = await supabaseAdmin.storage
-            .from(bucketName)
-            .list(`activities/${name}/${year.name}`);
-
-          if (titlesError || !titles) continue;
-
-          for (const title of titles) {
-            if (!title.id) { // Directory
-              const { data: fileItems, error: filesError } = await supabaseAdmin.storage
-                .from(bucketName)
-                .list(`activities/${name}/${year.name}/${title.name}`);
-
-              if (filesError || !fileItems) continue;
-
-              for (const fileItem of fileItems) {
-                if (fileItem.id) { // File
-                  const storagePath = `activities/${name}/${year.name}/${title.name}/${fileItem.name}`;
-                  const { data: { publicUrl } } = supabaseAdmin.storage
-                    .from(bucketName)
-                    .getPublicUrl(storagePath);
-                  files.push(publicUrl);
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+    packs = await listActivityPacks(name);
   } catch (e) {
     console.error("Error scanning Supabase Storage for activities:", e);
   }
 
-  const formattedFiles = files.reduce<Record<string, Record<string, string[]>>>((acc, filePath) => {
-    const parts = filePath.split("/");
-    const actIdx = parts.indexOf("activities");
-    
-    if (actIdx !== -1 && parts.length > actIdx + 4) {
-      const year = parts[actIdx + 2];
-      const title = parts[actIdx + 3];
-      const file = parts[actIdx + 4];
-
-      if (year && title && file) {
-        if (!acc[year]) {
-          acc[year] = {};
-        }
-        if (!acc[year][title]) {
-          acc[year][title] = [];
-        }
-        acc[year][title].push(filePath);
-      }
-    }
-
+  // Group into { [session year]: { [activity title]: photo urls } }
+  const formattedFiles = packs.reduce<Record<string, Record<string, string[]>>>((acc, pack) => {
+    if (pack.photos.length === 0) return acc;
+    if (!acc[pack.year]) acc[pack.year] = {};
+    acc[pack.year][pack.title] = pack.photos.map((photo) => photo.url);
     return acc;
   }, {});
 
-  const displayTitle = name
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
+  const displayTitle =
+    ACTIVITY_CATEGORIES.find((c) => c.slug === name)?.navTitle ??
+    name
+      .split("-")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
 
   return (
     <section className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
@@ -161,7 +114,7 @@ const Page = async ({ params }: PageProps) => {
                                   return (
                                     <img
                                       key={img}
-                                      src={img.startsWith("http") ? img : `/${img}`}
+                                      src={img}
                                       className={`absolute object-cover h-44 w-44 rounded-xl border border-slate-200/60 bg-white shadow-sm transition-transform duration-500 ${rot} ${scale}`}
                                       style={{
                                         zIndex: 10 - index,
@@ -207,12 +160,12 @@ const Page = async ({ params }: PageProps) => {
                                 className="relative aspect-square rounded-2xl overflow-hidden border border-slate-200/50 bg-slate-50 shadow-sm group"
                               >
                                 <img
-                                  src={img.startsWith("http") ? img : `/${img}`}
+                                  src={img}
                                   className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                                   alt={title}
                                 />
                                 <a
-                                  href={img.startsWith("http") ? img : `/${img}`}
+                                  href={img}
                                   target="_blank"
                                   className="absolute bottom-2 right-2 p-1.5 bg-black/60 hover:bg-black/80 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                                   title="View full-size image"

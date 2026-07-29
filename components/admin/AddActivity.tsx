@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Dialog,
   DialogContent,
@@ -23,10 +24,14 @@ import { Label } from "../ui/label";
 import axios from "axios";
 import { toast } from "sonner";
 import { getSessionYears } from "@/lib/sessions";
+import { ACTIVITY_CATEGORIES } from "@/lib/activity-categories";
+import { activityPackPath } from "@/lib/activity-paths";
 
 const SESSION_YEARS = getSessionYears();
 
 const AddActivity = () => {
+  const queryClient = useQueryClient();
+  const [open, setOpen] = useState(false);
   const [files, setFiles] = useState(null);
   const [uploading, setUploading] = useState(false);
 
@@ -56,7 +61,8 @@ const AddActivity = () => {
 
     setUploading(true);
 
-    const path = `gmhspkt1/activities/${formData.category}/${formData.year}/${formData.title}`;
+    // Bucket-relative prefix: activities/<category>/<year>/<title>
+    const path = activityPackPath(formData.category, formData.year, formData.title);
     try {
       const uploadData = new FormData();
       for (const file of files) {
@@ -78,6 +84,9 @@ const AddActivity = () => {
           category: "",
         });
         setFiles(null);
+        setOpen(false);
+        // Refresh the manager grid so the new pack shows up immediately
+        queryClient.invalidateQueries({ queryKey: ["admin_activities"] });
       } else {
         toast.error(data.error || "An error occurred while uploading. Please try again.");
       }
@@ -92,7 +101,7 @@ const AddActivity = () => {
 
   return (
     <div>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <div className="group h-44 bg-slate-50 hover:bg-slate-100/50 border border-slate-200 hover:border-amber-300 w-full p-6 rounded-2xl flex items-center justify-center flex-col gap-2.5 cursor-pointer shadow-sm hover:shadow-md transition-all duration-300">
             <div className="p-3 rounded-full bg-amber-50 text-amber-700 group-hover:scale-110 transition-transform duration-300">
@@ -113,7 +122,7 @@ const AddActivity = () => {
           </DialogHeader>
 
           <div className="space-y-4 pt-4 text-left">
-            
+
             {/* Category & Session Row */}
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1">
@@ -121,6 +130,7 @@ const AddActivity = () => {
                   Category <span className="text-red-500">*</span>
                 </Label>
                 <Select
+                  value={formData.category}
                   onValueChange={(value) =>
                     setFormData({
                       ...formData,
@@ -132,12 +142,11 @@ const AddActivity = () => {
                     <SelectValue placeholder="Choose" />
                   </SelectTrigger>
                   <SelectContent className="glass-panel">
-                    <SelectItem value="samagra-shiksha">Samagra Shiksha</SelectItem>
-                    <SelectItem value="pm-poshan">PM Poshan</SelectItem>
-                    <SelectItem value="digital-india">Digital India</SelectItem>
-                    <SelectItem value="fit-india">Fit India</SelectItem>
-                    <SelectItem value="ek-bharat-shrestha-bharat">Ek Bharat Shrestha</SelectItem>
-                    <SelectItem value="swachh-bharat-swachh-vidayalaya">Swachh Bharat</SelectItem>
+                    {ACTIVITY_CATEGORIES.map((category) => (
+                      <SelectItem key={category.slug} value={category.slug}>
+                        {category.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -147,6 +156,7 @@ const AddActivity = () => {
                   Session <span className="text-red-500">*</span>
                 </Label>
                 <Select
+                  value={formData.year}
                   onValueChange={(value) =>
                     setFormData({
                       ...formData,
