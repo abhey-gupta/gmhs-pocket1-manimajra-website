@@ -1,14 +1,12 @@
 // @ts-nocheck
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, FileText, Download, ShieldCheck, Layers, Loader2, Sparkles, AlertCircle } from "lucide-react";
+import { ArrowLeft, FileText, Download, ShieldCheck, Layers, Sparkles, AlertCircle } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import axios from "axios";
 
-// Default configuration mappings for self-healing/first-time loads
-const DEFAULT_PAGES = {
+// Static content for the fixed info/CBSE pages
+const PAGES = {
   "school-uniform": {
     title: "School Uniform Specifications",
     subtitle: "Student Guidelines",
@@ -110,59 +108,14 @@ function renderMarkdown(text: string) {
 }
 
 const DynamicPageView = ({ slug }: { slug: string }) => {
-  const [page, setPage] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const page = PAGES[slug];
 
-  useEffect(() => {
-    const fetchPage = async () => {
-      try {
-        setLoading(true);
-        const { data } = await axios.get(`/api/admin/pages/${slug}`);
-        if (data.success && data.page) {
-          setPage(data.page);
-        }
-      } catch (err: any) {
-        if (err.response?.status === 404 && DEFAULT_PAGES[slug]) {
-          // Self-heal: Save default page config
-          const defaultConfig = DEFAULT_PAGES[slug];
-          setPage(defaultConfig);
-          try {
-            // Write it back to backend (note: this might be unauthenticated if we don't have a token, 
-            // but we can skip writing or just handle locally in state if write fails. 
-            // Actually, we'll write it through a public-friendly endpoint or let the admin save it. 
-            // We will just write to disk if admin, else render from state)
-            await axios.post(`/api/admin/pages/${slug}`, defaultConfig);
-          } catch {
-            // Ignore write errors (unauth) and just render local default state
-          }
-        } else {
-          setError(err.response?.data?.error || "Failed to load page content.");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPage();
-  }, [slug]);
-
-  if (loading) {
-    return (
-      <div className="pt-40 pb-24 flex justify-center items-center">
-        <div className="flex flex-col items-center gap-3">
-          <Loader2 className="w-8 h-8 animate-spin text-amber-600" />
-          <p className="text-slate-400 text-xs font-semibold">Loading page contents...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !page) {
+  if (!page) {
     return (
       <div className="pt-32 pb-24 px-4 max-w-4xl mx-auto text-center">
         <div className="glass-panel border-slate-200/60 rounded-3xl p-12 bg-white flex flex-col items-center gap-3">
           <AlertCircle className="w-10 h-10 text-red-500" />
-          <p className="text-slate-500 font-bold">{error || "Page Not Found"}</p>
+          <p className="text-slate-500 font-bold">Page Not Found</p>
           <Link href="/" className="mt-4 inline-flex items-center gap-2 text-indigo-900 font-semibold hover:underline">
             <ArrowLeft className="w-4 h-4" /> Back to Home
           </Link>
@@ -202,12 +155,7 @@ const DynamicPageView = ({ slug }: { slug: string }) => {
 
       {/* Render Sections */}
       <div className="glass-panel border-slate-200/60 bg-white/95 rounded-3xl p-6 md:p-8 shadow-xl space-y-8">
-        {page.sections && page.sections.length === 0 ? (
-          <div className="text-center py-10 text-slate-400 italic text-sm">
-            This page has no content sections yet. Customize it from the admin portal!
-          </div>
-        ) : (
-          page.sections?.map((section: any, idx: number) => {
+        {page.sections?.map((section: any, idx: number) => {
             const heading = section.title || "";
 
             return (
@@ -301,8 +249,7 @@ const DynamicPageView = ({ slug }: { slug: string }) => {
                 )}
               </div>
             );
-          })
-        )}
+        })}
       </div>
     </section>
   );

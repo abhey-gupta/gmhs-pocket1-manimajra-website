@@ -5,13 +5,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { 
-  ArrowLeft, ShieldCheck, Megaphone, Images, 
-  Compass, File, LogOut, LayoutDashboard, Menu, X
+import {
+  ArrowLeft, ShieldCheck, Megaphone, Images,
+  Compass, LogOut, LayoutDashboard, Menu, X
 } from "lucide-react";
 import AnnouncementsManager from "./AnnouncementsManager";
 import ActivitiesManager from "./ActivitiesManager";
-import PagesManager from "./PagesManager";
 import Logo1 from "@/public/logo/logo1.jpg";
 import axios from "axios";
 import { toast } from "sonner";
@@ -43,7 +42,6 @@ const AdminDashboard = () => {
   const navItems = [
     { id: "announcements", label: "Announcements", icon: Megaphone, color: "text-indigo-500" },
     { id: "gallery", label: "Event Gallery", icon: Images, color: "text-amber-500" },
-    { id: "pages", label: "Custom Pages", icon: File, color: "text-sky-500" },
   ];
 
   return (
@@ -153,7 +151,6 @@ const AdminDashboard = () => {
             
             {activeTab === "announcements" && <AnnouncementsManager />}
             {activeTab === "gallery" && <ActivitiesManager />}
-            {activeTab === "pages" && <PagesManager />}
 
           </div>
         </div>
