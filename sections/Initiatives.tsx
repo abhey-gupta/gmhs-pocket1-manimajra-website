@@ -1,11 +1,7 @@
 import Image from "next/image";
-import Image2 from "@/public/additional/2.JPG";
-import Image4 from "@/public/additional/4.png";
-import Image5 from "@/public/additional/5.JPG";
-import Image6 from "@/public/additional/6.jpeg";
-import Image7 from "@/public/additional/swachh-bharat-swachh-vidyalaya.jpg";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { activities } from "@/lib/activities";
 
 const Initiatives = () => {
   const Card = ({ image, title, href }) => {
@@ -60,36 +56,14 @@ const Initiatives = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card
-          image={Image6}
-          title="Samagra Shiksha Activities"
-          href="/activities/samagra-shiksha"
-        />
-        <Card
-          image={Image2}
-          title="PM Poshan Activities"
-          href="/activities/pm-poshan"
-        />
-        <Card
-          image={Image4}
-          title="Digital India Activities"
-          href="/activities/digital-india"
-        />
-        <Card
-          image={Image5}
-          title="FIT India Activities"
-          href="/activities/fit-india"
-        />
-        <Card
-          image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoh7V6feZI-b9-BT_XpOgAr3Xc24Sv5YnoU191w8SfkQ&s"
-          title="Ek Bharat Shreshtha Bharat"
-          href="/activities/ek-bharat-shreshtha-bharat"
-        />
-        <Card
-          image={Image7}
-          title="Swachha Bharat Swachha Vidyalaya"
-          href="/activities/swachha-bharat-swachha-vidayalaya"
-        />
+        {activities.map((activity) => (
+          <Card
+            key={activity.href}
+            image={activity.image}
+            title={activity.title}
+            href={activity.href}
+          />
+        ))}
       </div>
     </section>
   );

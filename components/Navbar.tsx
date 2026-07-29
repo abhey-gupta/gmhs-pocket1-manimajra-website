@@ -19,11 +19,30 @@ import {
 import Image from "next/image";
 import { ChevronDown, Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
+import { activities } from "@/lib/activities";
+
+const Activities = ({ isMobile = false }) => (
+  <DropdownMenu>
+    <DropdownMenuTrigger className="focus:outline-none w-full text-left">
+      <span className={`flex items-center justify-between lg:justify-start gap-1 font-semibold py-1.5 px-2 xl:px-2.5 rounded-lg text-slate-700 hover:text-amber-600 transition duration-200 text-sm cursor-pointer whitespace-nowrap ${isMobile ? "w-full hover:bg-slate-50" : "hover:scale-105"}`}>
+        Activities
+        <ChevronDown className="w-3.5 h-3.5 opacity-60" />
+      </span>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent className="glass-panel p-1.5 border-slate-200/60 w-max rounded-xl shadow-xl animate-in fade-in-50 zoom-in-95 duration-200">
+      {activities.map((activity) => (
+        <DropdownMenuItem key={activity.href} className="rounded-lg focus:bg-indigo-50 focus:text-indigo-900 cursor-pointer">
+          <Link href={activity.href} className="w-full block py-1.5 px-2 text-xs font-medium text-slate-700 whitespace-nowrap">{activity.title}</Link>
+        </DropdownMenuItem>
+      ))}
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
 
 const SchoolCommittees = ({ isMobile = false }) => (
   <DropdownMenu>
     <DropdownMenuTrigger className="focus:outline-none w-full text-left">
-      <span className={`flex items-center justify-between md:justify-start gap-1 font-semibold py-1.5 px-3 rounded-lg text-slate-700 hover:text-amber-600 transition duration-200 text-sm cursor-pointer ${isMobile ? "w-full hover:bg-slate-50" : "hover:scale-105"}`}>
+      <span className={`flex items-center justify-between lg:justify-start gap-1 font-semibold py-1.5 px-2 xl:px-2.5 rounded-lg text-slate-700 hover:text-amber-600 transition duration-200 text-sm cursor-pointer whitespace-nowrap ${isMobile ? "w-full hover:bg-slate-50" : "hover:scale-105"}`}>
         Committees
         <ChevronDown className="w-3.5 h-3.5 opacity-60" />
       </span>
@@ -45,7 +64,7 @@ const SchoolCommittees = ({ isMobile = false }) => (
 const Results = ({ isMobile = false }) => (
   <DropdownMenu>
     <DropdownMenuTrigger className="focus:outline-none w-full text-left">
-      <span className={`flex items-center justify-between md:justify-start gap-1 font-semibold py-1.5 px-3 rounded-lg text-slate-700 hover:text-amber-600 transition duration-200 text-sm cursor-pointer ${isMobile ? "w-full hover:bg-slate-50" : "hover:scale-105"}`}>
+      <span className={`flex items-center justify-between lg:justify-start gap-1 font-semibold py-1.5 px-2 xl:px-2.5 rounded-lg text-slate-700 hover:text-amber-600 transition duration-200 text-sm cursor-pointer whitespace-nowrap ${isMobile ? "w-full hover:bg-slate-50" : "hover:scale-105"}`}>
         Results
         <ChevronDown className="w-3.5 h-3.5 opacity-60" />
       </span>
@@ -63,7 +82,7 @@ const Results = ({ isMobile = false }) => (
 const Achievements = ({ isMobile = false }) => (
   <DropdownMenu>
     <DropdownMenuTrigger className="focus:outline-none w-full text-left">
-      <span className={`flex items-center justify-between md:justify-start gap-1 font-semibold py-1.5 px-3 rounded-lg text-slate-700 hover:text-amber-600 transition duration-200 text-sm cursor-pointer ${isMobile ? "w-full hover:bg-slate-50" : "hover:scale-105"}`}>
+      <span className={`flex items-center justify-between lg:justify-start gap-1 font-semibold py-1.5 px-2 xl:px-2.5 rounded-lg text-slate-700 hover:text-amber-600 transition duration-200 text-sm cursor-pointer whitespace-nowrap ${isMobile ? "w-full hover:bg-slate-50" : "hover:scale-105"}`}>
         Achievements
         <ChevronDown className="w-3.5 h-3.5 opacity-60" />
       </span>
@@ -82,7 +101,7 @@ const Achievements = ({ isMobile = false }) => (
 const CBSE = ({ isMobile = false }) => (
   <DropdownMenu>
     <DropdownMenuTrigger className="focus:outline-none w-full text-left">
-      <span className={`flex items-center justify-between md:justify-start gap-1 font-semibold py-1.5 px-3 rounded-lg text-slate-700 hover:text-amber-600 transition duration-200 text-sm cursor-pointer ${isMobile ? "w-full hover:bg-slate-50" : "hover:scale-105"}`}>
+      <span className={`flex items-center justify-between lg:justify-start gap-1 font-semibold py-1.5 px-2 xl:px-2.5 rounded-lg text-slate-700 hover:text-amber-600 transition duration-200 text-sm cursor-pointer whitespace-nowrap ${isMobile ? "w-full hover:bg-slate-50" : "hover:scale-105"}`}>
         CBSE
         <ChevronDown className="w-3.5 h-3.5 opacity-60" />
       </span>
@@ -101,7 +120,7 @@ const CBSE = ({ isMobile = false }) => (
 const SchoolInfo = ({ isMobile = false }) => (
   <DropdownMenu>
     <DropdownMenuTrigger className="focus:outline-none w-full text-left">
-      <span className={`flex items-center justify-between md:justify-start gap-1 font-semibold py-1.5 px-3 rounded-lg text-slate-700 hover:text-amber-600 transition duration-200 text-sm cursor-pointer ${isMobile ? "w-full hover:bg-slate-50" : "hover:scale-105"}`}>
+      <span className={`flex items-center justify-between lg:justify-start gap-1 font-semibold py-1.5 px-2 xl:px-2.5 rounded-lg text-slate-700 hover:text-amber-600 transition duration-200 text-sm cursor-pointer whitespace-nowrap ${isMobile ? "w-full hover:bg-slate-50" : "hover:scale-105"}`}>
         School Info
         <ChevronDown className="w-3.5 h-3.5 opacity-60" />
       </span>
@@ -124,7 +143,7 @@ const SchoolInfo = ({ isMobile = false }) => (
 );
 
 const FeePayment = ({ isMobile = false }) => (
-  <Link href="https://www.schooleducation.chd.gov.in/LoginPage.aspx" target="_blank" className={`flex items-center justify-between md:justify-start gap-1 font-semibold py-1.5 px-3 rounded-lg text-slate-700 hover:text-amber-600 transition duration-200 text-sm cursor-pointer ${isMobile ? "w-full hover:bg-slate-50" : "hover:scale-105"}`}>
+  <Link href="https://www.schooleducation.chd.gov.in/LoginPage.aspx" target="_blank" className={`flex items-center justify-between lg:justify-start gap-1 font-semibold py-1.5 px-2 xl:px-2.5 rounded-lg text-slate-700 hover:text-amber-600 transition duration-200 text-sm cursor-pointer whitespace-nowrap ${isMobile ? "w-full hover:bg-slate-50" : "hover:scale-105"}`}>
     Fee Payment
   </Link>
 );
@@ -135,22 +154,22 @@ const Navbar = () => {
 
   return (
     <div className="fixed z-50 mt-4 w-full top-0 px-4 flex justify-center">
-      <div className="flex items-center justify-between w-full max-w-5xl glass-panel bg-white/80 border border-slate-200/50 shadow-md py-2.5 px-5 rounded-full md:px-8">
-        <Link href="/#home" className="flex items-center gap-2 group focus:outline-none">
+      <div className="flex items-center justify-between w-full max-w-7xl glass-panel bg-white/80 border border-slate-200/50 shadow-md py-2.5 px-5 rounded-full lg:px-7">
+        <Link href="/#home" className="flex items-center gap-2 group focus:outline-none shrink-0">
           <Image
             src={Logo1}
             alt="School Logo"
             className="object-contain rounded-full h-8 w-8 border border-slate-100 group-hover:rotate-[15deg] transition-transform duration-300"
           />
-          <span className="font-extrabold text-slate-900 tracking-tight text-sm md:text-base hidden sm:inline-block">
+          <span className="font-extrabold text-slate-900 tracking-tight text-sm xl:text-base hidden sm:inline-block whitespace-nowrap">
             GMHS <span className="text-amber-600 font-bold">Pocket 1</span>
           </span>
         </Link>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex gap-2 items-center text-slate-600">
+        <ul className="hidden lg:flex gap-0.5 items-center text-slate-600">
           <li>
-            <Link href="/#home" className="font-semibold py-1.5 px-3 rounded-lg text-slate-700 hover:text-amber-600 hover:scale-105 transition duration-200 text-sm">
+            <Link href="/#home" className="font-semibold py-1.5 px-2 xl:px-2.5 rounded-lg text-slate-700 hover:text-amber-600 hover:scale-105 transition duration-200 text-sm whitespace-nowrap">
               Home
             </Link>
           </li>
@@ -164,6 +183,9 @@ const Navbar = () => {
             <SchoolCommittees />
           </li>
           <li>
+            <Activities />
+          </li>
+          <li>
             <Results />
           </li>
           <li>
@@ -175,7 +197,7 @@ const Navbar = () => {
         </ul>
 
         {/* Mobile Navigation Trigger */}
-        <div className="flex items-center md:hidden">
+        <div className="flex items-center lg:hidden">
           <Sheet>
             <SheetTrigger asChild>
               <button className="p-2 text-slate-600 hover:text-slate-900 focus:outline-none cursor-pointer" aria-label="Toggle Menu">
@@ -203,6 +225,7 @@ const Navbar = () => {
                 <CBSE isMobile={true} />
                 <SchoolInfo isMobile={true} />
                 <SchoolCommittees isMobile={true} />
+                <Activities isMobile={true} />
                 <Results isMobile={true} />
                 <Achievements isMobile={true} />
                 <FeePayment isMobile={true} />
