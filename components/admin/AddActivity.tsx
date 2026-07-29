@@ -22,6 +22,9 @@ import { Loader2, Image as ImageIcon, Upload, FolderPlus } from "lucide-react";
 import { Label } from "../ui/label";
 import axios from "axios";
 import { toast } from "sonner";
+import { getSessionYears } from "@/lib/sessions";
+
+const SESSION_YEARS = getSessionYears();
 
 const AddActivity = () => {
   const [files, setFiles] = useState(null);
@@ -155,9 +158,9 @@ const AddActivity = () => {
                     <SelectValue placeholder="Choose" />
                   </SelectTrigger>
                   <SelectContent className="glass-panel">
-                    <SelectItem value="2023-24">2023-24</SelectItem>
-                    <SelectItem value="2024-25">2024-25</SelectItem>
-                    <SelectItem value="2025-26">2025-26</SelectItem>
+                    {SESSION_YEARS.map((year) => (
+                      <SelectItem key={year} value={year}>{year}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>

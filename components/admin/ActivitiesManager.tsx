@@ -15,6 +15,9 @@ import { Label } from "@/components/ui/label";
 import axios from "axios";
 import { toast } from "sonner";
 import AddActivity from "./AddActivity";
+import { getSessionYears } from "@/lib/sessions";
+
+const SESSION_YEARS = getSessionYears();
 
 const CATEGORY_LABELS = {
   "samagra-shiksha": "Samagra Shiksha",
@@ -325,9 +328,9 @@ const ActivitiesManager = () => {
                   <SelectValue placeholder="Choose Session" />
                 </SelectTrigger>
                 <SelectContent className="glass-panel">
-                  <SelectItem value="2023-24">2023-24</SelectItem>
-                  <SelectItem value="2024-25">2024-25</SelectItem>
-                  <SelectItem value="2025-26">2025-26</SelectItem>
+                  {SESSION_YEARS.map((year) => (
+                    <SelectItem key={year} value={year}>{year}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
