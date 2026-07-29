@@ -123,3 +123,19 @@ All standard development tasks should run through `pnpm`:
   * Supabase client initialization checks environment variables. To ensure `next build` does not fail when compiling in environments lacking env variables, the client falls back to placeholders and emits console warnings instead of throwing.
 * **Working with CSS**:
   * Tailwind CSS scans source files for class compiling. When adding or refactoring files, ensure their extensions (`.ts`, `.tsx`, `.js`, `.jsx`) are listed in the `content` array inside `tailwind.config.js` to ensure styling updates build correctly.
+
+---
+
+## Agent skills
+
+### Issue tracker
+
+Issues and specs live as markdown files under `.scratch/<feature-slug>/` in this repo. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five-role vocabulary, recorded as a `Status:` line in each issue file. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context — `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
